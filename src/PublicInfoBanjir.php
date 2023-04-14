@@ -8,25 +8,23 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class PublicInfoBanjir {
 
-  static public function getStateList(): Array {
-    return [
-      "KDH" => "Kedah",
-      "PNG" => "Pulau Pinang",
-      "PRK" => "Perak",
-      "SEL" => "Selangor",
-      "WLH" => "Wilayah Persekutuan Kuala Lumpur",
-      "PTJ" => "Wilayah Persekutuan Putrajaya",
-      "NSN" => "Negeri Sembilan",
-      "MLK" => "Melaka",
-      "JHR" => "Johor",
-      "PHG" => "Pahang",
-      "TRG" => "Terengganu",
-      "KEL" => "Kelantan",
-      "SRK" => "Sarawak",
-      "SAB" => "Sabah",
-      "WLP" => "Wilayah Persekutuan Labuan"
-    ];
-  }
+  static public $StateList = [
+    "KDH" => "Kedah",
+    "PNG" => "Pulau Pinang",
+    "PRK" => "Perak",
+    "SEL" => "Selangor",
+    "WLH" => "Wilayah Persekutuan Kuala Lumpur",
+    "PTJ" => "Wilayah Persekutuan Putrajaya",
+    "NSN" => "Negeri Sembilan",
+    "MLK" => "Melaka",
+    "JHR" => "Johor",
+    "PHG" => "Pahang",
+    "TRG" => "Terengganu",
+    "KEL" => "Kelantan",
+    "SRK" => "Sarawak",
+    "SAB" => "Sabah",
+    "WLP" => "Wilayah Persekutuan Labuan"
+  ];
 
   static public function getRainLevel(string $state = 'KDH', bool $html = false) {
     try {

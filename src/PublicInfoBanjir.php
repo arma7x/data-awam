@@ -61,7 +61,7 @@ class PublicInfoBanjir {
             }
           }
         } else if ($idx === 1) {
-          $h = ["No.","Station ID","Station","District","Last Updated","Daily Rainfall","Rainfall from Midnight","Total 1 Hour(Now)"];
+          // $h = ["No.","Station ID","Station","District","Last Updated","Daily Rainfall","Rainfall from Midnight","Total 1 Hour(Now)"];
           $data = [];
           $index = 0;
           $daily = [];
@@ -70,18 +70,18 @@ class PublicInfoBanjir {
             $val = trim($child1->textContent);
             if (strlen($val) > 0) {
               if ($index <= 4) {
-                $temp_result[preg_replace("/[^a-zA-Z0-9]+/", "", $h[$index])] = $val;
+                $temp_result[$headers[$index]] = $val;
               } else if ($index >= 5 && $index <= 10) {
                 $daily[$dailyRailfallHeaders[$index-5]] = $child1->textContent;
               } else {
                 if ($index == 11)
-                  $temp_result[preg_replace("/[^a-zA-Z]+/", "", $h[6])] = $val;
+                  $temp_result[$headers[6]] = $val;
                 else if ($index == 12)
-                  $temp_result[preg_replace("/[^a-zA-Z0-9]+/", "", $h[7])] = $val;
+                  $temp_result[$headers[7]] = $val;
               }
               $index++;
               if ($index == 13) {
-                $temp_result[preg_replace("/[^a-zA-Z]+/", "", $h[5])] = $daily;
+                $temp_result[$headers[5]] = $daily;
                 array_push($data, $temp_result);;
                 $index = 0;
                 $daily = [];

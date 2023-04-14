@@ -28,7 +28,6 @@ class PublicInfoBanjir {
 
   static public function getRainLevel(string $state = 'KDH', bool $html = false) {
     try {
-      // https://publicinfobanjir.water.gov.my/hujan/data-hujan/?state=KEL&lang=en
       $client = new Client(['base_uri' => 'http://publicinfobanjir.water.gov.my']);
       $res = $client->get('/wp-content/themes/shapely/agency/searchresultrainfall.php', ['query' => ['state' => $state, 'district' => 'ALL', 'station' => 'ALL', 'language' => '1', 'loginStatus' => '0'], 'debug' => false]);
       $webpage = '<!DOCTYPE html><html><body>'.(string) $res->getBody().'</body></html>';
@@ -61,7 +60,6 @@ class PublicInfoBanjir {
             }
           }
         } else if ($idx === 1) {
-          // $h = ["No.","Station ID","Station","District","Last Updated","Daily Rainfall","Rainfall from Midnight","Total 1 Hour(Now)"];
           $data = [];
           $index = 0;
           $daily = [];

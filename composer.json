@@ -1,0 +1,16 @@
+{
+    "name": "arma7x/local-services",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Arma7x\\LocalServices\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ahmad Malik",
+            "email": "arma7x@live.com"
+        }
+    ],
+    "require": {}
+}

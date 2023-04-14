@@ -12,5 +12,7 @@
             "email": "arma7x@live.com"
         }
     ],
-    "require": {}
+    "require": {
+        "guzzlehttp/guzzle": "^7.0"
+    }
 }

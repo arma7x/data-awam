@@ -1,0 +1,62 @@
+#! /usr/bin/php
+<?php
+
+date_default_timezone_set("Asia/Kuala_Lumpur");
+
+require __DIR__ . './../vendor/autoload.php';
+require __DIR__ . '/commons.php';
+
+use Arma7x\LocalServices\Jakim;
+
+function printJakimWaktuSolatZoneByState() {
+  $zoneByState = Jakim::getWaktuSolatZones();
+
+  $state_menu = [];
+  foreach (array_keys($zoneByState) as $idx => $state) {
+    $state_menu[$idx] = $state;
+    echo "\033[31m" . str_pad($idx, 3, " ") . "\033[39m" . "=> " . $state . "\r\n";
+  }
+  $state_index = readline_terminal('Sila pilih nombor negeri: ');
+  while (strlen(preg_replace( '/[^0-9]/', '', $state_index)) === 0 || intval($state_index) < 0 || intval($state_index) > COUNT($state_menu) - 1) {
+    $state_index = readline('Sila pilih nombor negeri: ');
+  }
+  clear();
+
+  $zone_menu = [];
+  foreach (array_keys($zoneByState[$state_menu[$state_index]]) as $idx => $zone) {
+    $zone_menu[$idx] = $zone;
+    echo "\033[31m" . str_pad($idx, 3, " ") . "\033[39m" . "=> $zone => " . $zoneByState[$state_menu[$state_index]][$zone] . "\r\n";
+  }
+  $zone_index = readline_terminal('Sila pilih nombor zon: ');
+  while (strlen(preg_replace( '/[^0-9]/', '', $zone_index)) === 0 || intval($zone_index) < 0 || intval($zone_index) > COUNT($zone_menu) - 1) {
+    $zone_index = readline('Sila pilih nombor zon: ');
+  }
+  clear();
+
+  echo str_pad("\033[36mNegeri", 12, " ") . "\033[39m: " . $state_menu[$state_index] . "\r\n";
+  echo str_pad("\033[36mZon", 12, " ") . "\033[39m: " . $zone_menu[$zone_index] . "\r\n";
+  echo str_pad("\033[36mDaerah", 12, " ") . "\033[39m: " . $zoneByState[$state_menu[$state_index]][$zone_menu[$zone_index]] . "\r\n\r\n";
+
+  $headers = ["Hijri", "Masihi", "Hari", "Imsak", "Subuh", "Syuruk", "Zohor", "Asar", "Maghrib", "Isyak"];
+  echo "\033[31m";
+  foreach ($headers as $value) {
+    echo str_pad($value, 13, " ");
+  }
+  echo "\033[39m \r\n";
+
+  foreach (Jakim::getWaktuSolat($zone_menu[$zone_index], 'duration', '2023-04-14', '2023-04-22')["prayerTime"] as $row) {
+    if (date('d-M-Y') === $row['date'])
+      echo "\033[36m";
+    foreach ($row as $key => $value) {
+      if (in_array($key, ['hijri', 'date', 'day'])) {
+        echo str_pad(($key !== 'day' ? $value : Jakim::$DayTranslation[strtolower($value)]), 13, " ");
+      } else {
+        echo str_pad(substr($value, 0, 5), 13, " ");
+      }
+    }
+    echo "\033[39m \r\n";
+  }
+
+}
+
+printJakimWaktuSolatZoneByState();

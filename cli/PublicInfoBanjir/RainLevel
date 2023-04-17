@@ -1,0 +1,27 @@
+#! /usr/bin/php
+<?php
+
+date_default_timezone_set("Asia/Kuala_Lumpur");
+
+require __DIR__ . './../../vendor/autoload.php';
+require __DIR__ . './../commons.php';
+
+use Arma7x\LocalServices\PublicInfoBanjir;
+
+function printPublicInfoBanjirRainLevel($state = "KDH") {
+  foreach (PublicInfoBanjir::getRainLevel($state)["data"] as $row) {
+    foreach ($row as $key => $value) {
+      if ($key === 'Daily Rainfall') {
+        foreach ($value as $key => $value) {
+          echo str_pad("\033[36m" . $key . " ", 42, "=") . "\033[39m" . "=> " . $value . "\r\n";
+        }
+      } else {
+        echo str_pad("\033[36m" . $key . " ", 42, "=") . "\033[39m" . "=> " . $value . "\r\n";
+      }
+    }
+    echo "\r\n";
+  }
+}
+
+printPublicInfoBanjirRainLevel($argv[1]);
+// printJakimWaktuSolatZoneByState();

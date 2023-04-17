@@ -1,0 +1,17 @@
+#! /usr/bin/php
+<?php
+
+date_default_timezone_set("Asia/Kuala_Lumpur");
+
+require __DIR__ . './../../vendor/autoload.php';
+require __DIR__ . './../commons.php';
+
+use Arma7x\LocalServices\PublicInfoBanjir;
+
+function printPublicInfoBanjirStateList() {
+  foreach (PublicInfoBanjir::$StateList as $key => $value) {
+    echo $key . " => " . $value . "\r\n";
+  }
+}
+
+printPublicInfoBanjirStateList();

@@ -38,16 +38,16 @@ class Jakim {
 
   public static function getWaktuSolat(string $zone, string $duration, string $datestart = '', string $dateend = ''): array {
     $client = new Client(['base_uri' => 'https://www.e-solat.gov.my']);
-    $week_n_year = function(string $zone, string $duration, string $datestart = '', string $dateend = '') use($client): array {
+    $week_n_year = function(Client $client, string $zone, string $duration): array {
       $res = $client->get('/index.php', ['query' => ['r' => 'esolatApi/takwimsolat', 'period' => $duration, 'zone' => $zone], 'debug' => false]);
       return json_decode((string) $res->getBody(), TRUE);
     };
     $cases = [
-      'today' => function(string $zone, string $duration, string $datestart = '', string $dateend = '') use($client): array {
+      'today' => function(Client $client, string $zone, string $duration): array {
         $res = $client->post('/index.php', ['query' => ['r' => 'esolatApi/takwimsolat', 'period' => 'duration', 'zone' => $zone], 'form_params' => ['datestart' => date('Y-m-d'), 'dateend' => date('Y-m-d')], 'debug' => false]);
         return json_decode((string) $res->getBody(), TRUE);
       },
-      'duration' => function(string $zone, string $duration, string $datestart = '', string $dateend = '') use($client): array {
+      'duration' => function(Client $client, string $zone, string $duration) use($datestart, $dateend): array {
         $res = $client->post('/index.php', ['query' => ['r' => 'esolatApi/takwimsolat', 'period' => 'duration', 'zone' => $zone], 'form_params' => ['datestart' => $datestart, 'dateend' => $dateend], 'debug' => false]);
         return json_decode((string) $res->getBody(), TRUE);
       },
@@ -55,7 +55,7 @@ class Jakim {
       'year' => $week_n_year,
     ];
 
-    return array_key_exists($duration, $cases) ? $cases[$duration]($zone, $duration, $datestart, $dateend) : throw new \Exception("Unknown duration: $duration");
+    return array_key_exists($duration, $cases) ? $cases[$duration]($client, $zone, $duration) : throw new \Exception("Unknown duration: $duration");
   }
 
 }

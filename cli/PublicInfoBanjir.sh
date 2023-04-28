@@ -22,7 +22,7 @@ do
   if [ $operation = "RainLevel" ]; then
     printRainLevel
     break
-  else
+  elif [ $operation = "RiverLevel" ]; then
     printRiverLevel
     break
   fi

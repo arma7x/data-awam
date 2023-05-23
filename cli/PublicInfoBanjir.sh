@@ -1,18 +1,21 @@
 #! /bin/bash
 
+BASE_DIR="$( readlink -f -- "$0"; )";
+REPLACE=".sh"
+
 while read line
 do
   echo "$line"
-done < <(php ./PublicInfoBanjir/StateList)
+done < <(php ${BASE_DIR//$REPLACE//StateList})
 
 function printRainLevel() {
   read -p "Masukan kod negeri: " STATE
-  echo $STATE | xargs ./cli/PublicInfoBanjir/RainLevel
+  echo $STATE | xargs ${BASE_DIR//$REPLACE//RainLevel}
 }
 
 function printRiverLevel() {
   read -p "Masukan kod negeri: " STATE
-  echo $STATE | xargs ./cli/PublicInfoBanjir/RiverLevel
+  echo $STATE | xargs ${BASE_DIR//$REPLACE//RiverLevel}
 }
 
 printf "\r\nPilih kod operasi:\r\n"
